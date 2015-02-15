@@ -16,4 +16,9 @@
 
   (deftest test-collisions?
     (testing "placing overlapping ships"
-      (is (collisions? [small-ship-at-origin large-ship-at-origin])))))
+      (is (collisions? [small-ship-at-origin large-ship-at-origin]))))
+
+  (deftest test-hit?
+    (testing "hitting a ship"
+      (is (hit? {:x 0 :y 0} [small-ship-at-origin]))
+      (is (hit? {:x 5 :y 0} [small-ship-at-origin])))))

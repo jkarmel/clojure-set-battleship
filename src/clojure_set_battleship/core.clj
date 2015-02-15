@@ -15,8 +15,16 @@
     (apply merge (map #(apply id+coords=>coords->id %) id-coords-pairs))))
 
 
+(defn point-sets [placements]
+  (map #(apply ship->points %) placements))
+
 (defn collisions? [placements]
-  (let [point-sets (map #(apply ship->points %) placements)
-        total-points-in-sets (apply + (map count point-sets))
-        total-of-union (apply clojure.set/union point-sets)]
+  (let [total-points-in-sets (apply + (map count (point-sets placements)))
+        total-of-union (apply clojure.set/union  (point-sets placements))]
     (not (= total-points-in-sets total-of-union))))
+
+(defn all-coords-with-ships [placements]
+  (apply clojure.set/union (map #(apply ship->points %) placements)))
+
+(defn hit? [coords placements]
+  (not (contains? placements coords)))
