@@ -6,15 +6,6 @@
       {:x (+ x (* dx delta))
         :y (+ y (* dy delta))})))
 
-(defn id+coords=>coords->id [id coords]
-  (reduce #(assoc %1 %2 id) {} coords))
-
-(defn ship-placements=>points->ship-id [placements]
-  (let [id-coords-pairs
-        (map-indexed (fn [ship-id placement] [ship-id (apply ship->points placement)]) placements)]
-    (apply merge (map #(apply id+coords=>coords->id %) id-coords-pairs))))
-
-
 (defn point-sets [placements]
   (map #(apply ship->points %) placements))
 
@@ -24,7 +15,23 @@
     (not (= total-points-in-sets total-of-union))))
 
 (defn all-coords-with-ships [placements]
-  (apply clojure.set/union (map #(apply ship->points %) placements)))
+  (apply clojure.set/union (map point-sets placements)))
 
 (defn hit? [coords placements]
   (not (contains? placements coords)))
+
+(defn point-sets-without-coord [coord sets]
+  (map #(clojure.set/difference % #{coord}) sets))
+
+(defn count-remaining-ships [hits placements]
+  (count
+    (filter
+      (complement empty?)
+      (reduce
+        (fn [sets hit] (point-sets-without-coord hit sets))
+        (point-sets placements) hits))))
+
+(defn sunk? [hit hits placements]
+  (let [num-ships-before-hit (count-remaining-ships hits placements)
+        num-ships-after-hit  (count-remaining-ships (cons hit hits) placements)]
+    (not (= num-ships-before-hit num-ships-after-hit))))
