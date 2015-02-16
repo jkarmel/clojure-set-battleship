@@ -32,7 +32,7 @@
 (defn point-sets-without-coord [coord sets]
   (map #(clojure.set/difference % #{coord}) sets))
 
-(defn count-remaining-ships [hits placements]
+(defn count-remaining [hits placements]
   (count
     (filter
       (complement empty?)
@@ -42,9 +42,9 @@
         hits))))
 
 (defn sunk? [hit hits placements]
-  (let [num-ships-before-hit (count-remaining-ships hits placements)
-        num-ships-after-hit  (count-remaining-ships (cons hit hits) placements)]
+  (let [num-ships-before-hit (count-remaining hits placements)
+        num-ships-after-hit  (count-remaining (cons hit hits) placements)]
     (not (= num-ships-before-hit num-ships-after-hit))))
 
 (defn win? [hit hits placements]
-  (zero? (count-remaining-ships (cons hit hits) placements)))
+  (zero? (count-remaining (cons hit hits) placements)))

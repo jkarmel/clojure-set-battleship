@@ -26,9 +26,9 @@
     (is (hit? origin [small-ship-at-origin]))
     (is (hit? random-coords [small-ship-at-origin])))
 
-  (deftest test-count-remaining-ships
-    (is (= (count-remaining-ships [] [small-ship-at-origin]) 1))
-    (is (= (count-remaining-ships [origin down-one] [small-ship-at-origin]) 0)))
+  (deftest test-count-remaining
+    (is (= (count-remaining [] [small-ship-at-origin]) 1))
+    (is (= (count-remaining [origin down-one] [small-ship-at-origin]) 0)))
 
   (deftest test-sunk?
     (is (sunk? origin [down-one] [small-ship-at-origin])))
