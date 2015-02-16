@@ -30,7 +30,8 @@
     (is (= (count-remaining [origin down-one] [small-ship-at-origin]) 0)))
 
   (deftest -sunk?
-    (is (sunk? origin [down-one] [small-ship-at-origin])))
+    (is (sunk? origin [down-one] [small-ship-at-origin]))
+    (is (not (sunk? origin [random-coords] [small-ship-at-origin]))))
 
   (deftest -win?
     (is (win? origin [down-one] [small-ship-at-origin]))
