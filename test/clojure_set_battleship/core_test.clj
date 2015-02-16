@@ -12,7 +12,7 @@
       large-ship-at-origin [4 origin down]]
 
   (deftest -ship->coords
-    (is (= (apply ship->coords small-ship-at-origin)
+    (is (= (ship->coords small-ship-at-origin)
           #{origin down-one})))
 
   (deftest -on-board?
