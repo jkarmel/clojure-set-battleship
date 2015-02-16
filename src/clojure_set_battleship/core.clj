@@ -4,7 +4,7 @@
   (set
     (for [delta (range 0 size)]
       {:x (+ x (* dx delta))
-        :y (+ y (* dy delta))})))
+       :y (+ y (* dy delta))})))
 
 (defn point-sets [placements]
   (map #(apply ship->points %) placements))

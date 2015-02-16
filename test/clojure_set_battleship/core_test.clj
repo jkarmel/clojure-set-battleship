@@ -3,31 +3,36 @@
             [clojure-set-battleship.core :refer :all]))
 
 (let [origin {:x 0 :y 0}
-      small-ship-at-origin [2 origin {:x 0 :y 1}]
-      large-ship-at-origin [4 origin {:x 0 :y 1}]]
+      off-board {:x -1 :y 0}
+      down   {:x 0 :y 1}
+      right  {:x 1 :y 0}
+      random-coords {:x 5 :y 5}
+      down-one down
+      small-ship-at-origin [2 origin down]
+      large-ship-at-origin [4 origin down]]
 
   (deftest test-ship->points
-    (is (= (ship->points 3 origin {:x 1 :y 0})
-          #{origin {:x 1 :y 0} {:x 2 :y 0}})))
+    (is (= (apply ship->points small-ship-at-origin)
+          #{origin down-one})))
 
   (deftest test-on-board?
-    (is (not (on-board? {:height 10 :width 10} [3 {:x -1 :y 0} {:x 1 :y 0}]))))
+    (is (not (on-board? {:height 10 :width 10} [2 off-board down]))))
 
   (deftest test-collisions?
     (testing "placing overlapping ships"
       (is (collisions? [small-ship-at-origin large-ship-at-origin]))))
 
   (deftest test-hit?
-    (is (hit? {:x 0 :y 0} [small-ship-at-origin]))
-    (is (hit? {:x 5 :y 0} [small-ship-at-origin])))
+    (is (hit? origin [small-ship-at-origin]))
+    (is (hit? random-coords [small-ship-at-origin])))
 
   (deftest test-count-remaining-ships
     (is (= (count-remaining-ships [] [small-ship-at-origin]) 1))
-    (is (= (count-remaining-ships [origin {:x 0 :y 1}] [small-ship-at-origin]) 0)))
+    (is (= (count-remaining-ships [origin down-one] [small-ship-at-origin]) 0)))
 
   (deftest test-sunk?
-    (is (sunk? origin [{:x 0 :y 1}] [small-ship-at-origin])))
+    (is (sunk? origin [down-one] [small-ship-at-origin])))
 
   (deftest test-win?
-    (is (win? origin [{:x 0 :y 1}] [small-ship-at-origin]))
-    (is (not (win? origin [{:x 5 :y 5}] [small-ship-at-origin])))))
+    (is (win? origin [down-one] [small-ship-at-origin]))
+    (is (not (win? origin [random-coords] [small-ship-at-origin])))))
