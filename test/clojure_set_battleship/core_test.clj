@@ -23,7 +23,7 @@
 
   (deftest -hit?
     (is (hit? origin [small-ship-at-origin]))
-    (is (hit? random-coords [small-ship-at-origin])))
+    (is (not (hit? random-coords [small-ship-at-origin]))))
 
   (deftest -count-remaining
     (is (= (count-remaining [] [small-ship-at-origin]) 1))

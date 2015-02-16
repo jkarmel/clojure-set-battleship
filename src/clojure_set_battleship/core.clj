@@ -14,7 +14,7 @@
     (not (= total-length total-occupied))))
 
 (defn hit? [coords placements]
-  (not (contains? placements coords)))
+  (contains? (apply clojure.set/union (coord-sets placements)) coords))
 
 (defn board-coords [height width]
   (set
