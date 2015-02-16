@@ -9,7 +9,8 @@
       random-coords {:x 5 :y 5}
       down-one down
       small-ship-at-origin {:length 2 :start origin :orientation down}
-      large-ship-at-origin {:length 4 :start origin :orientation down}]
+      large-ship-at-origin {:length 4 :start origin :orientation down}
+      small-ship-far-away {:length 3 :start random-coords :orientation down}]
 
   (deftest -ship->coords
     (is (= (ship->coords small-ship-at-origin)
@@ -19,7 +20,8 @@
     (is (not (on-board? {:height 10 :width 10} {:length 2 :start off-board :orientation down}))))
 
   (deftest -collisions?
-    (is (collisions? [small-ship-at-origin large-ship-at-origin])))
+    (is (collisions? [small-ship-at-origin large-ship-at-origin]))
+    (is (not (collisions? [small-ship-at-origin small-ship-far-away]))))
 
   (deftest -hit?
     (is (hit? origin [small-ship-at-origin]))

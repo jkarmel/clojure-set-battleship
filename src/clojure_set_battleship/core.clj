@@ -10,7 +10,7 @@
 
 (defn collisions? [placements]
   (let [total-length (apply + (map :length placements))
-        total-occupied (apply clojure.set/union  (coord-sets placements))]
+        total-occupied (count (apply clojure.set/union  (coord-sets placements)))]
     (not (= total-length total-occupied))))
 
 (defn hit? [coords placements]
