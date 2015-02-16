@@ -7,8 +7,8 @@
       large-ship-at-origin [4 origin {:x 0 :y 1}]]
 
   (deftest test-ship->points
-    (is (= (ship->points 3 {:x 0 :y 0} {:x 1 :y 0})
-          #{{:x 0 :y 0} {:x 1 :y 0} {:x 2 :y 0}})))
+    (is (= (ship->points 3 origin {:x 1 :y 0})
+          #{origin {:x 1 :y 0} {:x 2 :y 0}})))
 
   (deftest test-on-board?
     (is (not (on-board? {:height 10 :width 10} [3 {:x -1 :y 0} {:x 1 :y 0}]))))
@@ -23,7 +23,7 @@
 
   (deftest test-count-remaining-ships
     (is (= (count-remaining-ships [] [small-ship-at-origin]) 1))
-    (is (= (count-remaining-ships [{:x 0 :y 0} {:x 0 :y 1}] [small-ship-at-origin]) 0)))
+    (is (= (count-remaining-ships [origin {:x 0 :y 1}] [small-ship-at-origin]) 0)))
 
   (deftest test-sunk?
     (is (sunk? origin [{:x 0 :y 1}] [small-ship-at-origin])))
