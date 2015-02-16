@@ -5,10 +5,13 @@
 (let [origin {:x 0 :y 0}
       small-ship-at-origin [2 origin {:x 0 :y 1}]
       large-ship-at-origin [4 origin {:x 0 :y 1}]]
+
   (deftest test-ship->points
-    (testing "a ship at 0 0"
-      (is (= (ship->points 3 {:x 0 :y 0} {:x 1 :y 0})
-            #{{:x 0 :y 0} {:x 1 :y 0} {:x 2 :y 0}}))))
+    (is (= (ship->points 3 {:x 0 :y 0} {:x 1 :y 0})
+          #{{:x 0 :y 0} {:x 1 :y 0} {:x 2 :y 0}})))
+
+  (deftest test-on-board?
+    (is (not (on-board? {:height 10 :width 10} [3 {:x -1 :y 0} {:x 1 :y 0}]))))
 
   (deftest test-collisions?
     (testing "placing overlapping ships"

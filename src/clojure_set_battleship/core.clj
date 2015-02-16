@@ -1,6 +1,6 @@
 (ns clojure-set-battleship.core)
 
-(defn ship->points [size {x :x y :y} {dx :x dy :y :as thing}]
+(defn ship->points [size {x :x y :y} {dx :x dy :y}]
   (set
     (for [delta (range 0 size)]
       {:x (+ x (* dx delta))
@@ -20,6 +20,15 @@
 (defn hit? [coords placements]
   (not (contains? placements coords)))
 
+(defn board-coords [height width]
+  (set
+    (for [x (range 0 width)
+          y (range 0 height)]
+      {:x x :y y})))
+
+(defn on-board? [{height :height width :width} placement]
+  (every? #(contains? (board-coords height width) %) (apply ship->points placement)))
+
 (defn point-sets-without-coord [coord sets]
   (map #(clojure.set/difference % #{coord}) sets))
 
@@ -29,7 +38,8 @@
       (complement empty?)
       (reduce
         (fn [sets hit] (point-sets-without-coord hit sets))
-        (point-sets placements) hits))))
+        (point-sets placements)
+        hits))))
 
 (defn sunk? [hit hits placements]
   (let [num-ships-before-hit (count-remaining-ships hits placements)
