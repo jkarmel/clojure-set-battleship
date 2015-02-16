@@ -11,8 +11,8 @@
       small-ship-at-origin [2 origin down]
       large-ship-at-origin [4 origin down]]
 
-  (deftest test-ship->points
-    (is (= (apply ship->points small-ship-at-origin)
+  (deftest test-ship->coords
+    (is (= (apply ship->coords small-ship-at-origin)
           #{origin down-one})))
 
   (deftest test-on-board?

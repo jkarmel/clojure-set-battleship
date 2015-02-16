@@ -1,21 +1,21 @@
 (ns clojure-set-battleship.core)
 
-(defn ship->points [size {x :x y :y} {dx :x dy :y}]
+(defn ship->coords [size {x :x y :y} {dx :x dy :y}]
   (set
     (for [delta (range 0 size)]
       {:x (+ x (* dx delta))
        :y (+ y (* dy delta))})))
 
-(defn point-sets [placements]
-  (map #(apply ship->points %) placements))
+(defn coords-sets [placements]
+  (map #(apply ship->coords %) placements))
 
 (defn collisions? [placements]
-  (let [total-points-in-sets (apply + (map count (point-sets placements)))
-        total-of-union (apply clojure.set/union  (point-sets placements))]
-    (not (= total-points-in-sets total-of-union))))
+  (let [total-coords-occupied (apply + (map count (coords-sets placements)))
+        total-of-union (apply clojure.set/union  (coords-sets placements))]
+    (not (= total-coords-occupied total-of-union))))
 
 (defn all-coords-with-ships [placements]
-  (apply clojure.set/union (map point-sets placements)))
+  (apply clojure.set/union (map coords-sets placements)))
 
 (defn hit? [coords placements]
   (not (contains? placements coords)))
@@ -27,7 +27,7 @@
       {:x x :y y})))
 
 (defn on-board? [{height :height width :width} placement]
-  (every? #(contains? (board-coords height width) %) (apply ship->points placement)))
+  (every? #(contains? (board-coords height width) %) (apply ship->coords placement)))
 
 (defn point-sets-without-coord [coord sets]
   (map #(clojure.set/difference % #{coord}) sets))
@@ -38,7 +38,7 @@
       (complement empty?)
       (reduce
         (fn [sets hit] (point-sets-without-coord hit sets))
-        (point-sets placements)
+        (coords-sets placements)
         hits))))
 
 (defn sunk? [hit hits placements]
