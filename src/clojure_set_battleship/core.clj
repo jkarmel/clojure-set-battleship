@@ -41,10 +41,10 @@
         (coords-sets placements)
         hits))))
 
-(defn sunk? [hit hits placements]
-  (let [total-ships-before-hit (count-remaining hits placements)
-        total-ships-after-hit  (count-remaining (cons hit hits) placements)]
+(defn sunk? [hit previous-hits placements]
+  (let [total-ships-before-hit (count-remaining previous-hits placements)
+        total-ships-after-hit  (count-remaining (cons hit previous-hits) placements)]
     (not (= total-ships-before-hit total-ships-after-hit))))
 
-(defn win? [hit hits placements]
-  (zero? (count-remaining (cons hit hits) placements)))
+(defn win? [hit previous-hits placements]
+  (zero? (count-remaining (cons hit previous-hits) placements)))
