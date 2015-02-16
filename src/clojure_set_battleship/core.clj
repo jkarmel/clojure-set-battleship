@@ -33,13 +33,12 @@
   (map #(clojure.set/difference % #{coord}) sets))
 
 (defn count-remaining [hits placements]
-  (count
-    (filter
-      (complement empty?)
-      (reduce
-        (fn [sets hit] (point-sets-without-coord hit sets))
-        (coords-sets placements)
-        hits))))
+  (let [ship-coordinate-sets-without-hits
+        (reduce
+          (fn [sets hit] (point-sets-without-coord hit sets))
+          (coords-sets placements)
+          hits)]
+    (->> ship-coordinate-sets-without-hits (filter (complement empty?)) count)))
 
 (defn sunk? [hit previous-hits placements]
   (let [total-ships-before-hit (count-remaining previous-hits placements)
