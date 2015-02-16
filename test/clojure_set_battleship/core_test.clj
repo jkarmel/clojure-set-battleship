@@ -8,15 +8,15 @@
       right  {:x 1 :y 0}
       random-coords {:x 5 :y 5}
       down-one down
-      small-ship-at-origin [2 origin down]
-      large-ship-at-origin [4 origin down]]
+      small-ship-at-origin {:size 2 :start origin :orientation down}
+      large-ship-at-origin {:size 4 :start origin :orientation down}]
 
   (deftest -ship->coords
     (is (= (ship->coords small-ship-at-origin)
           #{origin down-one})))
 
   (deftest -on-board?
-    (is (not (on-board? {:height 10 :width 10} [2 off-board down]))))
+    (is (not (on-board? {:height 10 :width 10} {:size 2 :start off-board :orientation down}))))
 
   (deftest -collisions?
     (testing "placing overlapping ships"

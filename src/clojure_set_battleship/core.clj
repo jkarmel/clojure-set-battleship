@@ -1,6 +1,6 @@
 (ns clojure-set-battleship.core)
 
-(defn ship->coords [[size {x :x y :y} {dx :x dy :y}]]
+(defn ship->coords [{size :size {x :x y :y} :start {dx :x dy :y} :orientation}]
   (set
     (for [delta (range 0 size)]
       {:x (+ x (* dx delta))
