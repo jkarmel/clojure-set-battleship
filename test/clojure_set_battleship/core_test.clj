@@ -11,28 +11,28 @@
       small-ship-at-origin [2 origin down]
       large-ship-at-origin [4 origin down]]
 
-  (deftest test-ship->coords
+  (deftest -ship->coords
     (is (= (apply ship->coords small-ship-at-origin)
           #{origin down-one})))
 
-  (deftest test-on-board?
+  (deftest -on-board?
     (is (not (on-board? {:height 10 :width 10} [2 off-board down]))))
 
-  (deftest test-collisions?
+  (deftest -collisions?
     (testing "placing overlapping ships"
       (is (collisions? [small-ship-at-origin large-ship-at-origin]))))
 
-  (deftest test-hit?
+  (deftest -hit?
     (is (hit? origin [small-ship-at-origin]))
     (is (hit? random-coords [small-ship-at-origin])))
 
-  (deftest test-count-remaining
+  (deftest -count-remaining
     (is (= (count-remaining [] [small-ship-at-origin]) 1))
     (is (= (count-remaining [origin down-one] [small-ship-at-origin]) 0)))
 
-  (deftest test-sunk?
+  (deftest -sunk?
     (is (sunk? origin [down-one] [small-ship-at-origin])))
 
-  (deftest test-win?
+  (deftest -win?
     (is (win? origin [down-one] [small-ship-at-origin]))
     (is (not (win? origin [random-coords] [small-ship-at-origin])))))
