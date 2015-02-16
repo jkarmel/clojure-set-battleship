@@ -35,3 +35,6 @@
   (let [num-ships-before-hit (count-remaining-ships hits placements)
         num-ships-after-hit  (count-remaining-ships (cons hit hits) placements)]
     (not (= num-ships-before-hit num-ships-after-hit))))
+
+(defn win? [hit hits placements]
+  (zero? (count-remaining-ships (cons hit hits) placements)))

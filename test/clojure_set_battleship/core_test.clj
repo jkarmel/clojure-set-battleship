@@ -23,4 +23,8 @@
     (is (= (count-remaining-ships [{:x 0 :y 0} {:x 0 :y 1}] [small-ship-at-origin]) 0)))
 
   (deftest test-sunk?
-    (is (sunk? origin [{:x 0 :y 1}] [small-ship-at-origin]))))
+    (is (sunk? origin [{:x 0 :y 1}] [small-ship-at-origin])))
+
+  (deftest test-win?
+    (is (win? origin [{:x 0 :y 1}] [small-ship-at-origin]))
+    (is (not (win? origin [{:x 5 :y 5}] [small-ship-at-origin])))))
